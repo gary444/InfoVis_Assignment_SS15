@@ -23,12 +23,15 @@ public class MouseController implements MouseListener,MouseMotionListener {
 	 private Element selectedElement = new None();
 	 private double mouseOffsetX;
 	 private double mouseOffsetY;
+//	 private double mouseStartX;
+//	 private double mouseStartY;
 	 private boolean edgeDrawMode = false;
 	 private DrawingEdge drawingEdge = null;
 	 private boolean fisheyeMode;
 	 private GroupingRectangle groupRectangle;
 
 	 private boolean movingMarker = false;
+     private boolean movingOverview = false;
 
 	/*
 	 * Getter And Setter
@@ -100,6 +103,11 @@ public class MouseController implements MouseListener,MouseMotionListener {
 		    mouseOffsetX = x;
 		    mouseOffsetY = y;
         }
+        else if (view.overviewContains(x,y)){
+		    movingOverview = true;
+            mouseOffsetX = x;
+            mouseOffsetY = y;
+        }
 	   
        else if (edgeDrawMode){
             drawingEdge = new DrawingEdge((Vertex)getElementContainingPosition(x/scale,y/scale));
@@ -125,10 +133,11 @@ public class MouseController implements MouseListener,MouseMotionListener {
 		int y = arg0.getY();
 
 		if (movingMarker){
-
 		    movingMarker = false;
-
-		    //TODO translate main view by x and y
+            view.updateTranslation();
+        }
+        else if (movingOverview){
+		    movingOverview = false;
         }
         else {
 
@@ -191,7 +200,17 @@ public class MouseController implements MouseListener,MouseMotionListener {
 		 */
 		if (movingMarker){
 		    //update position of marker
-            view.updateMarker(x - (int)mouseOffsetX, y - (int)mouseOffsetY);
+            view.updateMarker(x - (int)mouseOffsetX + (int)view.getMarker().getX(),
+                    y - (int)mouseOffsetY + (int)view.getMarker().getY());
+            mouseOffsetX = x;
+            mouseOffsetY = y;
+        }
+        else if (movingOverview){
+		    //update position of overview window
+            view.updateOverviewPosition(x - (int)mouseOffsetX , y - (int)mouseOffsetY);
+            mouseOffsetX = x;
+            mouseOffsetY = y;
+
         }
 		else if (fisheyeMode){
 			/*

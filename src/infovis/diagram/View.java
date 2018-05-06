@@ -4,7 +4,6 @@ import infovis.diagram.elements.Element;
 
 import java.awt.*;
 import java.awt.geom.Rectangle2D;
-import java.util.Iterator;
 
 import javax.swing.JPanel;
 
@@ -14,9 +13,14 @@ public class View extends JPanel{
 	private Model model = null;
 	private Color color = Color.BLUE;
 	private double scale = 1;
-	private double translateX= 0;
+	private double overviewDiagramScale;
+	private double overviewBoxScale = 0.25;
+	private int markerBoxStroke = 2;
+	private double translateX=0;
 	private double translateY=0;
-	private Rectangle2D marker = new Rectangle2D.Double(0,0,0,0);
+	private double overviewTranslateX=0;
+	private double overviewTranslateY=0;
+	private Rectangle2D marker = new Rectangle2D.Double(overviewTranslateX,overviewTranslateY,0,0);
 	private Rectangle2D overviewRect = new Rectangle2D.Double();   
 
 	public Model getModel() {
@@ -39,15 +43,18 @@ public class View extends JPanel{
 		g2D.setRenderingHint(RenderingHints.KEY_ANTIALIASING,RenderingHints.VALUE_ANTIALIAS_ON);
 		g2D.clearRect(0, 0, getWidth(), getHeight());
 		
-		//set scale
+		//main diagram
+		g2D.translate(translateX,translateY);
 		g2D.scale(scale,scale);
-		
 		paintDiagram(g2D);
+
+		//reset translation and scale
+		g2D.scale(1/scale,1/scale);
+		g2D.translate(-translateX,-translateY);
 
 
 		//set overview dimensions in full scale - keep size constant
-		g2D.scale(1/scale,1/scale);
-		overviewRect = new Rectangle2D.Float(0,0,getWidth() * 0.25f, getHeight()*0.25f);
+		overviewRect = new Rectangle2D.Double(overviewTranslateX,overviewTranslateY,getWidth()*overviewBoxScale, getHeight()*overviewBoxScale);
 		g2D.setColor(new Color(0xffcccccc));
 		g2D.fill(overviewRect);
 		g2D.setColor(new Color(0xff000000));
@@ -56,18 +63,23 @@ public class View extends JPanel{
 
 		//calc scale factor for overview diagram
 		double[] limits = getDiagramLimits();
-		double ovw_offset = 20;
-		double ovw_scale = Math.min((overviewRect.getWidth() - ovw_offset)/ limits[0],
-				(overviewRect.getHeight() - ovw_offset)/ limits[1]);
-		g2D.scale(ovw_scale,ovw_scale);
+		g2D.translate(overviewTranslateX, overviewTranslateY);
+		overviewDiagramScale = Math.min((overviewRect.getWidth())/ limits[0],
+				(overviewRect.getHeight())/ limits[1]);
+		g2D.scale(overviewDiagramScale, overviewDiagramScale);
 		paintDiagram(g2D);
 
-		//draw marker rectangle
-		marker = new Rectangle2D.Double(marker.getX(),marker.getY(),getWidth()/scale,getHeight()/scale);
-//		g2D.scale(1 / scale, 1/scale);
-		g2D.setStroke(new BasicStroke(10));
+		//reset scale and translate
+		g2D.scale(1/ overviewDiagramScale,1/ overviewDiagramScale);
+		g2D.translate(-overviewTranslateX, -overviewTranslateY);
+
+		//create marker rectangle
+		marker = new Rectangle2D.Double(marker.getX(),marker.getY(),getWidth()/scale* overviewDiagramScale,getHeight()/scale* overviewDiagramScale);
+		g2D.setStroke(new BasicStroke(markerBoxStroke));
 		g2D.setColor(new Color(0xffff0000));
-		g2D.draw(marker);
+		//adjust for size of stroke
+		g2D.draw(new Rectangle2D.Double(marker.getX() - markerBoxStroke /2, marker.getY() - markerBoxStroke /2,
+				marker.getWidth() + markerBoxStroke, marker.getHeight() + markerBoxStroke));
 
 		
 	}
@@ -87,6 +99,11 @@ public class View extends JPanel{
 			if (element.getY() > xLimit)
 				yLimit = element.getY();
 		}
+
+		//add offsets to give a space around diagram
+		double offset = 50;
+		xLimit += offset;
+		yLimit += offset;
 
 		double[] limits = {xLimit, yLimit};
 		return limits;
@@ -110,12 +127,34 @@ public class View extends JPanel{
 	public void setTranslateY(double tansslateY) {
 		this.translateY = tansslateY;
 	}
-	public void updateTranslation(double x, double y){
-		setTranslateX(x);
-		setTranslateY(y);
-	}	
+
+	public void updateTranslation(){
+		//derive from marker position (relative to overview) - utilise bounds checking in updateMarker function
+		setTranslateX(-(marker.getX()-overviewTranslateX) / overviewDiagramScale * scale);
+		setTranslateY(-(marker.getY()-overviewTranslateY) / overviewDiagramScale * scale);
+	}
 	public void updateMarker(int x, int y){
-		marker.setRect(x, y, marker.getWidth(), marker.getHeight());
+
+//		System.out.println("updating marker position");
+
+		//check position is valid
+		if (overviewRect.contains(x, y, marker.getWidth(), marker.getHeight())){
+			marker.setRect(x, y, marker.getWidth(), marker.getHeight());
+		}
+	}
+	public void updateOverviewPosition(int x, int y){
+
+//		System.out.println("updating overview position");
+
+		//check validity
+		if (new Rectangle2D.Double(0,0,getWidth(),getHeight())
+				.contains(overviewTranslateX+x,overviewTranslateY+y,overviewRect.getWidth(),overviewRect.getHeight())){
+			overviewTranslateX += x;
+			overviewTranslateY += y;
+
+			//update marker as well
+			marker.setRect(marker.getX() + x, marker.getY() + y, marker.getWidth(), marker.getHeight());
+		}
 	}
 	public Rectangle2D getMarker(){
 		return marker;
@@ -123,5 +162,7 @@ public class View extends JPanel{
 	public boolean markerContains(int x, int y){
 		return marker.contains(x, y);
 	}
+	public boolean overviewContains(int x, int y) {return overviewRect.contains(x,y);}
+
 }
  
