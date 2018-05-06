@@ -75,12 +75,25 @@ public class View extends JPanel{
 
 		//create marker rectangle
 		marker = new Rectangle2D.Double(marker.getX(),marker.getY(),getWidth()/scale* overviewDiagramScale,getHeight()/scale* overviewDiagramScale);
-		g2D.setStroke(new BasicStroke(markerBoxStroke));
-		g2D.setColor(new Color(0xffff0000));
-		//adjust for size of stroke
-		g2D.draw(new Rectangle2D.Double(marker.getX() - markerBoxStroke /2, marker.getY() - markerBoxStroke /2,
-				marker.getWidth() + markerBoxStroke, marker.getHeight() + markerBoxStroke));
 
+		//check marker is within overview box - might not be if scale is decreased
+		if (!overviewRect.contains(marker)){
+			Rectangle2D tempR = overviewRect.createIntersection(marker);
+			double xAdjust = marker.getWidth() - tempR.getWidth();
+			double yAdjust = marker.getHeight() - tempR.getHeight();
+			marker.setRect(marker.getX() - xAdjust, marker.getY() - yAdjust, marker.getWidth(), marker.getHeight());
+			updateTranslation();
+			//paint again to update diagram position
+			paint(g2D);
+		}
+		else {
+			g2D.setStroke(new BasicStroke(markerBoxStroke));
+			g2D.setColor(new Color(0xffff0000));
+			//adjust for size of stroke
+			g2D.draw(new Rectangle2D.Double(marker.getX() - markerBoxStroke /2, marker.getY() - markerBoxStroke /2,
+					marker.getWidth() + markerBoxStroke, marker.getHeight() + markerBoxStroke));
+
+		}
 		
 	}
 	private void paintDiagram(Graphics2D g2D){
@@ -111,6 +124,7 @@ public class View extends JPanel{
 	
 	public void setScale(double scale) {
 		this.scale = scale;
+		updateTranslation();
 	}
 	public double getScale(){
 		return scale;
@@ -135,7 +149,6 @@ public class View extends JPanel{
 	}
 	public void updateMarker(int x, int y){
 
-//		System.out.println("updating marker position");
 
 		//check position is valid
 		if (overviewRect.contains(x, y, marker.getWidth(), marker.getHeight())){
@@ -144,7 +157,6 @@ public class View extends JPanel{
 	}
 	public void updateOverviewPosition(int x, int y){
 
-//		System.out.println("updating overview position");
 
 		//check validity
 		if (new Rectangle2D.Double(0,0,getWidth(),getHeight())
