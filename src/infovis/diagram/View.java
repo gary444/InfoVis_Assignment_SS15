@@ -154,6 +154,8 @@ public class View extends JPanel{
 		if (overviewRect.contains(x, y, marker.getWidth(), marker.getHeight())){
 			marker.setRect(x, y, marker.getWidth(), marker.getHeight());
 		}
+
+		updateTranslation();
 	}
 	public void updateOverviewPosition(int x, int y){
 
