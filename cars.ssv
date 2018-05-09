@@ -1,4 +1,4 @@
-Name;Markteinfuehrung;Hubraum;PS;l/100km;Vmax(km/h);Gewicht(t);Beschleunigung(0-100/s)
+Name;Year;Cap;PS;l/100km;Vmax(km/h);Gewicht(t);Acc.(0-100/s)
 Golf 1;1974;1.1;50;9;138;790;17
 Golf 2;1984;1.3;55;8.5;151;855;16
 Golf 3;1991; 1.4; 60; 7;154;960;16
