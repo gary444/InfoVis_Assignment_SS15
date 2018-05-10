@@ -2,7 +2,6 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="2af26780-e0fa-4fd6-bbe3-0f9f62d45eb9" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/cars.ssv" afterPath="$PROJECT_DIR$/cars.ssv" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/infovis/scatterplot/MouseController.java" afterPath="$PROJECT_DIR$/src/infovis/scatterplot/MouseController.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/infovis/scatterplot/View.java" afterPath="$PROJECT_DIR$/src/infovis/scatterplot/View.java" />
     </list>
@@ -16,31 +15,21 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="View.java" pinned="false" current-in-tab="true">
+      <file leaf-file-name="View.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/infovis/scatterplot/View.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="123">
-              <caret line="177" column="70" lean-forward="false" selection-start-line="177" selection-start-column="70" selection-end-line="177" selection-end-column="70" />
+            <state relative-caret-position="-2231">
+              <caret line="40" column="60" lean-forward="true" selection-start-line="40" selection-start-column="60" selection-end-line="40" selection-end-column="60" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="MouseController.java" pinned="false" current-in-tab="false">
+      <file leaf-file-name="MouseController.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/infovis/scatterplot/MouseController.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="173">
-              <caret line="35" column="37" lean-forward="false" selection-start-line="35" selection-start-column="37" selection-end-line="35" selection-end-column="37" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="Range.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/infovis/scatterplot/Range.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="30">
-              <caret line="2" column="13" lean-forward="false" selection-start-line="2" selection-start-column="13" selection-end-line="2" selection-end-column="13" />
+            <state relative-caret-position="-370">
+              <caret line="14" column="0" lean-forward="true" selection-start-line="14" selection-start-column="0" selection-end-line="14" selection-end-column="0" />
               <folding />
             </state>
           </provider>
@@ -61,16 +50,6 @@
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="105">
               <caret line="17" column="36" lean-forward="false" selection-start-line="17" selection-start-column="30" selection-end-line="17" selection-end-column="36" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="Data.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/infovis/scatterplot/Data.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="56">
-              <caret line="6" column="13" lean-forward="false" selection-start-line="6" selection-start-column="13" selection-end-line="6" selection-end-column="13" />
               <folding />
             </state>
           </provider>
@@ -98,8 +77,8 @@
         <option value="$PROJECT_DIR$/src/infovis/diagram/MouseController.java" />
         <option value="$PROJECT_DIR$/src/infovis/diagram/View.java" />
         <option value="$PROJECT_DIR$/cars.ssv" />
-        <option value="$PROJECT_DIR$/src/infovis/scatterplot/MouseController.java" />
         <option value="$PROJECT_DIR$/src/infovis/scatterplot/View.java" />
+        <option value="$PROJECT_DIR$/src/infovis/scatterplot/MouseController.java" />
       </list>
     </option>
   </component>
@@ -359,7 +338,7 @@
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.32991204" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32991204" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Capture Tool" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
@@ -612,26 +591,34 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/infovis/scatterplot/Model.java">
+    <entry file="file://$PROJECT_DIR$/src/infovis/diagram/MouseController.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="105">
-          <caret line="17" column="36" lean-forward="false" selection-start-line="17" selection-start-column="30" selection-end-line="17" selection-end-column="36" />
+        <state relative-caret-position="139">
+          <caret line="194" column="8" lean-forward="false" selection-start-line="194" selection-start-column="8" selection-end-line="195" selection-end-column="25" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/infovis/scatterplot/Data.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="56">
-          <caret line="6" column="13" lean-forward="false" selection-start-line="6" selection-start-column="13" selection-end-line="6" selection-end-column="13" />
+        <state relative-caret-position="85">
+          <caret line="8" column="26" lean-forward="false" selection-start-line="8" selection-start-column="26" selection-end-line="8" selection-end-column="37" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/infovis/diagram/MouseController.java">
+    <entry file="file://$PROJECT_DIR$/src/infovis/scatterplot/View.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="139">
-          <caret line="194" column="8" lean-forward="false" selection-start-line="194" selection-start-column="8" selection-end-line="195" selection-end-column="25" />
+        <state relative-caret-position="-2231">
+          <caret line="40" column="60" lean-forward="true" selection-start-line="40" selection-start-column="60" selection-end-line="40" selection-end-column="60" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/infovis/scatterplot/Model.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="105">
+          <caret line="17" column="36" lean-forward="false" selection-start-line="17" selection-start-column="30" selection-end-line="17" selection-end-column="36" />
           <folding />
         </state>
       </provider>
@@ -646,16 +633,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/infovis/scatterplot/MouseController.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="173">
-          <caret line="35" column="37" lean-forward="false" selection-start-line="35" selection-start-column="37" selection-end-line="35" selection-end-column="37" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/infovis/scatterplot/View.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="123">
-          <caret line="177" column="70" lean-forward="false" selection-start-line="177" selection-start-column="70" selection-end-line="177" selection-end-column="70" />
+        <state relative-caret-position="-370">
+          <caret line="14" column="0" lean-forward="true" selection-start-line="14" selection-start-column="0" selection-end-line="14" selection-end-column="0" />
           <folding />
         </state>
       </provider>

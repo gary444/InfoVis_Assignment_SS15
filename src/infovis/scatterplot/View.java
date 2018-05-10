@@ -17,15 +17,9 @@ public class View extends JPanel {
          private Rectangle2D matrixRectangle = new Rectangle2D.Double(0,0,0,0);
 	     private boolean markerVisible = false;
 
-
-
-		private int NUM_KEYS;
-//        private int MATRIX_X;
-//        private int MATRIX_Y;
         private int X_LABEL_SPACE;
         private int Y_LABEL_SPACE;
         private int PLOT_SIZE;
-        private int POINT_RADIUS = 2;
         private final double PLOT_OFFSET_FACTOR = 0.1;
 
         private Color DEF_POINT_COL = new Color(0xff000000);
@@ -43,6 +37,21 @@ public class View extends JPanel {
 
         public void setMarkerRectangle(Rectangle2D r) {
 
+            // allow drawing left and upwards
+            // adjust x and y to account for negative w an h
+            if (r.getWidth() < 0){
+                r = new Rectangle2D.Double(r.getX() + r.getWidth(), r.getY(),
+                        markerRectangle.getWidth()-r.getWidth(), r.getHeight());
+            }
+            if (r.getHeight() < 0){
+                r = new Rectangle2D.Double(r.getX(), r.getY() + r.getHeight(),
+                        r.getWidth(), markerRectangle.getHeight()-r.getHeight());
+            }
+
+            //check marker is within matrix
+            if (!matrixRectangle.contains(r))
+                return;
+
             //check that marker stays within one cell
             int[] cell1 = cell_containing_point(r.getX(), r.getY());
             int[] cell2 = cell_containing_point(r.getX() + r.getWidth(), r.getY() + r.getHeight());
@@ -50,8 +59,6 @@ public class View extends JPanel {
                     || cell1[1] != cell2[1]){
                 return;
             }
-
-            //TODO consider allowing drawing left and upwards
 
             //TODO consider extending rectangle to follow cursor even when outside cell
 
@@ -68,7 +75,8 @@ public class View extends JPanel {
 
 
 
-            NUM_KEYS = model.getLabels().size();
+            final int NUM_KEYS = model.getLabels().size();
+            final int POINT_RADIUS = 2;
             X_LABEL_SPACE = (int)(getWidth() * 0.12);
             Y_LABEL_SPACE = (int)(getHeight() * 0.1);
             PLOT_SIZE = Math.min((getWidth() - X_LABEL_SPACE) / NUM_KEYS, (getHeight() - Y_LABEL_SPACE) / NUM_KEYS);
@@ -113,10 +121,6 @@ public class View extends JPanel {
                 }
             }
 
-            //draw data
-//            g2D.setColor(new Color(0xffff0000));
-//            g2D.setStroke(new BasicStroke(5));
-
             //for each data point
             for (Data d : model.getList()){
 
@@ -136,7 +140,6 @@ public class View extends JPanel {
                         double final_x = plot_offset_x + (getPointOffsetForRange(x_val,  model.getRanges().get(x)) * PLOT_SIZE);
                         double final_y = plot_offset_y - (getPointOffsetForRange(y_val,  model.getRanges().get(y)) * PLOT_SIZE);
                         //draw
-//                        g2D.drawLine(final_x,final_y,final_x,final_y);//square points
                         g2D.fill(new Ellipse2D.Double(final_x - POINT_RADIUS, final_y - POINT_RADIUS,
                                 2*POINT_RADIUS, 2*POINT_RADIUS));
 
@@ -151,33 +154,41 @@ public class View extends JPanel {
                 g2D.draw(markerRectangle);
             }
 
-//	        for (String l : model.getLabels()) {
-//				Debug.print(l);
-//				Debug.print(",  ");
-//				Debug.println("");
-//			}
-//			for (Range range : model.getRanges()) {
-//				Debug.print(range.toString());
-//				Debug.print(",  ");
-//				Debug.println("");
-//			}
-//			for (Data d : model.getList()) {
-//				Debug.print(d.toString());
-//				Debug.println("");
-//			}
-	        
-			
 		}
 
+		//changes the colour attribute of data points contained within a rectangle
 		private void brushAndLink(Rectangle2D marker, int[] cell_coords){
 
             //get accepted ranges for points
-
+            double minX,maxX,minY,maxY;
+            double[] minPoint = getDataValuesForAbsPoint(marker.getX(),
+                    marker.getY() + marker.getHeight(), cell_coords[0], cell_coords[1]);
+            double[] maxPoint = getDataValuesForAbsPoint(marker.getX() + marker.getWidth(),
+                    marker.getY(), cell_coords[0], cell_coords[1]);
 
             //compare all data to those ranges
-            //change colour of data accordingly - even if not in range
+            for (Data d : model.getList()){
 
+                double data_x = d.getValues()[cell_coords[0]];
+                double data_y = d.getValues()[cell_coords[1]];
 
+                //check x dimension
+                if (data_x < minPoint[0] || data_x > maxPoint[0]){
+                    //out of range - set non highlighted
+                    d.setColor(DEF_POINT_COL);
+                    continue;
+                }
+
+                if (data_y < minPoint[1] || data_y > maxPoint[1]){
+                    //out of range - set non highlighted
+                    d.setColor(DEF_POINT_COL);
+                    continue;
+                }
+
+                //otherwise - in range, set highlighted
+                d.setColor(LINKED_POINT_COL);
+
+            }
 
         }
 
@@ -201,9 +212,39 @@ public class View extends JPanel {
 
         }
 
+        //returns the data values on the correct scale for a point on the scatter matrix
+        //takes cell as arguments as they have already been calculated in setMarkerRect
+        private double[] getDataValuesForAbsPoint(double x,double y, int cell_x, int cell_y){
+
+		    //get relative position within cell
+            double rel_x = x - X_LABEL_SPACE - (cell_x * PLOT_SIZE);//in px
+            rel_x /= PLOT_SIZE;//normalised
+
+            double rel_y = ((cell_y+1) * PLOT_SIZE  +  Y_LABEL_SPACE) - y;//in px
+            rel_y /= PLOT_SIZE;//normalised
+
+            //adjust for plot offset
+            double scale_factor = 1.0 / (1.0 - (PLOT_OFFSET_FACTOR*2));
+            rel_x -= PLOT_OFFSET_FACTOR;
+            rel_x *= scale_factor;
+            rel_y -= PLOT_OFFSET_FACTOR;
+            rel_y *= scale_factor;
+
+            ArrayList<Range> ranges = model.getRanges();
+            double[] rtn_values = new double[]{0.0,0.0};
+
+            //x
+            Range x_range = ranges.get(cell_x);
+            rtn_values[0] = x_range.getMin() + ((x_range.getMax() - x_range.getMin()) * rel_x);
+            //y
+            Range y_range = ranges.get(cell_y);
+            rtn_values[1] = y_range.getMin() + ((y_range.getMax() - y_range.getMin()) * rel_y);
+
+            return rtn_values;
+        }
+
         //returns which cell the given point is in, as x and y co-ordinates
         private int[] cell_containing_point(double x, double y){
-
 
 		    if (!matrixRectangle.contains(x,y))
 		        return new int[]{-1,-1};

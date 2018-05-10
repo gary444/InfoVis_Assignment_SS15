@@ -24,15 +24,14 @@ public class MouseController implements MouseListener, MouseMotionListener {
 		int x = arg0.getX();
 		int y = arg0.getY();
 
-		//set all points as unmarked
-		//Iterator<Data> iter = model.iterator();
-
+		//turn on marker
 		view.setMarkerVisibility(true);
 		view.getMarkerRectangle().setRect(x,y,0,0);
 		view.repaint();
 	}
 
 	public void mouseReleased(MouseEvent arg0) {
+
 		//no need for marker any more
 		view.setMarkerVisibility(false);
 		view.repaint();
@@ -41,10 +40,10 @@ public class MouseController implements MouseListener, MouseMotionListener {
 	public void mouseDragged(MouseEvent arg0) {
 		int x = arg0.getX();
 		int y = arg0.getY();
+
 		//resize marker here
 		Rectangle2D mrkr = view.getMarkerRectangle();
 		view.setMarkerRectangle(new Rectangle2D.Double(mrkr.getX(), mrkr.getY(),x - mrkr.getX(), y - mrkr.getY()));
-		//change colour of data points
 
 		view.repaint();
 	}
