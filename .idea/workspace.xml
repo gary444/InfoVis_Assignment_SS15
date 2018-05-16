@@ -2,19 +2,9 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="2af26780-e0fa-4fd6-bbe3-0f9f62d45eb9" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/bin/infovis/paracoords/MouseController.class" afterPath="$PROJECT_DIR$/bin/infovis/paracoords/MouseController.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/bin/infovis/paracoords/View.class" afterPath="$PROJECT_DIR$/bin/infovis/paracoords/View.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/bin/infovis/scatterplot/Model.class" afterPath="$PROJECT_DIR$/bin/infovis/scatterplot/Model.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/bin/infovis/scatterplot/MouseController.class" afterPath="$PROJECT_DIR$/bin/infovis/scatterplot/MouseController.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/bin/infovis/scatterplot/Range.class" afterPath="$PROJECT_DIR$/bin/infovis/scatterplot/Range.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/bin/infovis/scatterplot/View.class" afterPath="$PROJECT_DIR$/bin/infovis/scatterplot/View.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/cars.ssv" afterPath="$PROJECT_DIR$/cars.ssv" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/infovis/paracoords/MouseController.java" afterPath="$PROJECT_DIR$/src/infovis/paracoords/MouseController.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/infovis/paracoords/View.java" afterPath="$PROJECT_DIR$/src/infovis/paracoords/View.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/infovis/scatterplot/Model.java" afterPath="$PROJECT_DIR$/src/infovis/scatterplot/Model.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/infovis/scatterplot/Range.java" afterPath="$PROJECT_DIR$/src/infovis/scatterplot/Range.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/infovis/scatterplot/View.java" afterPath="$PROJECT_DIR$/src/infovis/scatterplot/View.java" />
     </list>
     <ignored path="$PROJECT_DIR$/bin/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -29,28 +19,8 @@
       <file leaf-file-name="View.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/infovis/paracoords/View.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="214">
-              <caret line="208" column="23" lean-forward="false" selection-start-line="208" selection-start-column="23" selection-end-line="208" selection-end-column="23" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="cars.ssv" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/cars.ssv">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="165">
-              <caret line="11" column="71" lean-forward="false" selection-start-line="11" selection-start-column="71" selection-end-line="11" selection-end-column="71" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="Model.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/infovis/scatterplot/Model.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="166">
-              <caret line="104" column="8" lean-forward="true" selection-start-line="104" selection-start-column="8" selection-end-line="108" selection-end-column="9" />
+            <state relative-caret-position="-2278">
+              <caret line="109" column="4" lean-forward="false" selection-start-line="109" selection-start-column="4" selection-end-line="109" selection-end-column="4" />
               <folding />
             </state>
           </provider>
@@ -69,8 +39,8 @@
       <file leaf-file-name="MouseController.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/infovis/paracoords/MouseController.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="197">
-              <caret line="47" column="25" lean-forward="true" selection-start-line="47" selection-start-column="25" selection-end-line="47" selection-end-column="25" />
+            <state relative-caret-position="135">
+              <caret line="14" column="28" lean-forward="false" selection-start-line="14" selection-start-column="28" selection-end-line="14" selection-end-column="28" />
               <folding />
             </state>
           </provider>
@@ -99,10 +69,10 @@
         <option value="$PROJECT_DIR$/src/infovis/diagram/View.java" />
         <option value="$PROJECT_DIR$/cars.ssv" />
         <option value="$PROJECT_DIR$/src/infovis/scatterplot/MouseController.java" />
-        <option value="$PROJECT_DIR$/src/infovis/paracoords/MouseController.java" />
         <option value="$PROJECT_DIR$/src/infovis/scatterplot/Range.java" />
         <option value="$PROJECT_DIR$/src/infovis/scatterplot/View.java" />
         <option value="$PROJECT_DIR$/src/infovis/scatterplot/Model.java" />
+        <option value="$PROJECT_DIR$/src/infovis/paracoords/MouseController.java" />
         <option value="$PROJECT_DIR$/src/infovis/paracoords/View.java" />
       </list>
     </option>
@@ -696,18 +666,21 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/infovis/scatterplot/View.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="328">
+          <caret line="30" column="27" lean-forward="false" selection-start-line="30" selection-start-column="27" selection-end-line="30" selection-end-column="27" />
+          <folding>
+            <element signature="e#888#889#0" expanded="true" />
+            <element signature="e#926#927#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/infovis/scatterplot/Range.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="330">
           <caret line="32" column="25" lean-forward="false" selection-start-line="32" selection-start-column="25" selection-end-line="32" selection-end-column="25" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/cars.ssv">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="165">
-          <caret line="11" column="71" lean-forward="false" selection-start-line="11" selection-start-column="71" selection-end-line="11" selection-end-column="71" />
           <folding />
         </state>
       </provider>
@@ -720,29 +693,26 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/infovis/paracoords/MouseController.java">
+    <entry file="file://$PROJECT_DIR$/cars.ssv">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="197">
-          <caret line="47" column="25" lean-forward="true" selection-start-line="47" selection-start-column="25" selection-end-line="47" selection-end-column="25" />
+        <state relative-caret-position="165">
+          <caret line="11" column="71" lean-forward="false" selection-start-line="11" selection-start-column="71" selection-end-line="11" selection-end-column="71" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/infovis/scatterplot/View.java">
+    <entry file="file://$PROJECT_DIR$/src/infovis/paracoords/MouseController.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="328">
-          <caret line="30" column="27" lean-forward="false" selection-start-line="30" selection-start-column="27" selection-end-line="30" selection-end-column="27" />
-          <folding>
-            <element signature="e#888#889#0" expanded="true" />
-            <element signature="e#926#927#0" expanded="true" />
-          </folding>
+        <state relative-caret-position="135">
+          <caret line="14" column="28" lean-forward="false" selection-start-line="14" selection-start-column="28" selection-end-line="14" selection-end-column="28" />
+          <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/infovis/paracoords/View.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="214">
-          <caret line="208" column="23" lean-forward="false" selection-start-line="208" selection-start-column="23" selection-end-line="208" selection-end-column="23" />
+        <state relative-caret-position="-2278">
+          <caret line="109" column="4" lean-forward="false" selection-start-line="109" selection-start-column="4" selection-end-line="109" selection-end-column="4" />
           <folding />
         </state>
       </provider>

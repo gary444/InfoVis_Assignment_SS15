@@ -102,11 +102,11 @@ public class Model {
 //			Debug.print(",  ");
 //			Debug.println("");
 //		}
-		for (Range range : ranges) {
-			Debug.print(range.toString());
-			Debug.print(",  ");
-			Debug.println("");
-		}
+//		for (Range range : ranges) {
+//			Debug.print(range.toString());
+//			Debug.print(",  ");
+//			Debug.println("");
+//		}
 //		for (Data d : list) {
 //			Debug.print(d.toString());
 //			Debug.println("");

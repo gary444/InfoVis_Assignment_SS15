@@ -7,6 +7,7 @@ import infovis.scatterplot.Range;
 import java.awt.*;
 import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
+import java.util.Collections;
 
 import javax.swing.JPanel;
 
@@ -14,6 +15,7 @@ public class View extends JPanel {
 	private Model model = null;
 
 	private ArrayList<Integer> axis_x_positions;
+	private ArrayList<Integer> axis_order;
 	private ArrayList<Boolean> axis_is_ascending;
 
 	private Rectangle2D markerRect = new Rectangle2D.Double(0,0,0,0);
@@ -53,6 +55,8 @@ public class View extends JPanel {
 			for (int i = 0; i < NUM_AXES; i++)
 				axis_is_ascending.add(true);
 		}
+		//update order that parallel axes should be drawn in
+		axis_order = getAxisOrder(axis_x_positions);
 
 		//title
 		Font font = new Font("Serif", Font.PLAIN, (int)(Y_PADDING_TOP/2));
@@ -81,14 +85,19 @@ public class View extends JPanel {
 			ArrayList<Integer> item_y_points = new ArrayList<>();
 			double [] values = d.getValues();
 			//...calculate the position at which it's line crosses each axis
-			for (int i = 0; i < ranges.size(); i++){
-				item_y_points.add(absPointOnRange(values[i], ranges.get(i), AXIS_HEIGHT, axis_is_ascending.get(i)));
+			for (int i = 0; i < NUM_AXES; i++){
+
+				int axis_id = axis_order.get(i);
+
+				item_y_points.add(absPointOnRange(values[axis_id], ranges.get(axis_id), AXIS_HEIGHT, axis_is_ascending.get(axis_id)));
 
 				//then draw line
 				if (i > 0){
+
+					int prev_axis_id = axis_order.get(i-1);
 					g2D.setColor(d.getColor());
-					g2D.drawLine(axis_x_positions.get(i-1) + AXIS_WIDTH, item_y_points.get(i-1)+Y_PADDING_TOP,
-							axis_x_positions.get(i), item_y_points.get(i)+Y_PADDING_TOP);
+					g2D.drawLine(axis_x_positions.get(prev_axis_id) + AXIS_WIDTH, item_y_points.get(i-1)+Y_PADDING_TOP,
+							axis_x_positions.get(axis_id), item_y_points.get(i)+Y_PADDING_TOP);
 				}
 			}
 		}
@@ -98,7 +107,7 @@ public class View extends JPanel {
 		g2D.draw(markerRect);
 
 	}
-
+	
 	//returns an int describing how many pixels along an axis a value is
 	private Integer absPointOnRange(double value, Range range, int axis_height, boolean ascending){
 
@@ -222,13 +231,48 @@ public class View extends JPanel {
 		permittedRange = new Range(wholeRange.getMin() + range*markerMin_d,
 				wholeRange.getMin() + range*markerMax_d);
 
-		System.out.println("range for axis: " + axis_id + ", " +
-				"min = " + permittedRange.getMin() + ", max = " + permittedRange.getMax());
-
 		return permittedRange;
 	}
 
+	//returns number of axis that point is contained by
+	// if none, return -1
+	public int pointSelectsAxis(int x, int y){
 
+		//check y pos
+		if (y < Y_PADDING_TOP || y > (getHeight() - Y_PADDING_BOTTOM)){
+			//y coord out of range of axes
+			return -1;
+		}
+		//check x pos
+		for (int i = 0; i < axis_x_positions.size(); i++){
+			if (x >= axis_x_positions.get(i)
+					&& x <= (axis_x_positions.get(i) + AXIS_WIDTH)){
+				return i;
+			}
+		}
+		return -1;
+	}
+
+	//updates x position of given axis
+	public void moveAxis(int axis_id, int by_x){
+		axis_x_positions.set(axis_id, axis_x_positions.get(axis_id) + by_x);
+		repaint();
+	}
+
+	//returns a list of axis ids in order of x location (left to right)
+	private ArrayList<Integer> getAxisOrder(ArrayList<Integer> x_positions){
+		ArrayList<Integer> axes_pos = new ArrayList<>(x_positions);
+		ArrayList<Integer> axis_order = new ArrayList<>();
+
+		for (int i = 0; i < x_positions.size(); i++){
+
+			int min_val = Collections.min(axes_pos);
+			int axis = x_positions.indexOf(min_val);
+			axis_order.add(axis);
+			axes_pos.set(axis, Integer.MAX_VALUE);
+		}
+		return axis_order;
+	}
 
 	@Override
 	public void update(Graphics g) {

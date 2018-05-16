@@ -12,7 +12,10 @@ public class MouseController implements MouseListener, MouseMotionListener {
 	private Model model = null;
 	Shape currentShape = null;
 
+	private int X_mouse_ref;
+
 	private boolean drawingMarker = false;
+	private int movingAxis = -1;
 	
 	public void mouseClicked(MouseEvent e) {
 		
@@ -30,16 +33,34 @@ public class MouseController implements MouseListener, MouseMotionListener {
 		//check bounds?
 		int x = e.getX();
 		int y = e.getY();
-		drawingMarker = true;
-		view.setMarkerRect(x,y,x,y);
+
+		//check if point is contained by axis
+		movingAxis = view.pointSelectsAxis(x,y);
+		if (movingAxis >= 0){
+			X_mouse_ref = x;
+//			Y_mouse_ref = y;
+		}
+		else {
+			//if not, start marker draw
+			drawingMarker = true;
+			view.setMarkerRect(x,y,x,y);
+		}
 
 	}
 
 	public void mouseReleased(MouseEvent e) {
-		//check bounds?
-		drawingMarker = false;
-		view.brushAndLink();
-		view.setMarkerRect(0,0,0,0);
+
+		if (movingAxis >= 0){
+			movingAxis = -1;
+		}
+		else if (drawingMarker) {
+			//check bounds?
+			drawingMarker = false;
+			view.brushAndLink();
+			view.setMarkerRect(0,0,0,0);
+		}
+
+
 
 	}
 
@@ -48,11 +69,17 @@ public class MouseController implements MouseListener, MouseMotionListener {
 		int x = e.getX();
 		int y = e.getY();
 
-		if (drawingMarker){
+		if (movingAxis >= 0) {
+
+			view.moveAxis(movingAxis, x - X_mouse_ref);
+			X_mouse_ref = x;
+		}
+		else if (drawingMarker){
 
 			view.setMarkerRect((int)(view.getMarkerRect().getX()), (int)(view.getMarkerRect().getY()),
 					x,y);
 		}
+
 	}
 
 	public void mouseMoved(MouseEvent e) {
