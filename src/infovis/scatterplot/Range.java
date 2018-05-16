@@ -24,5 +24,13 @@ public class Range {
     public String toString() {
 		return "[" +min + ","+max+"]";
     }
+
+    //added ex3
+	public boolean contains(double value){
+		if (value <= this.max && value >= this.min)
+			return true;
+		else
+			return false;
+	}
 	
 }

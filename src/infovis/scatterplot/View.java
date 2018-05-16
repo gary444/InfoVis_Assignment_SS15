@@ -29,7 +29,7 @@ public class View extends JPanel {
 
         public void setModel(Model model) {
         this.model = model;
-    }
+        }
         public Rectangle2D getMarkerRectangle() {
                 return markerRectangle;
             }

@@ -11,6 +11,8 @@ public class MouseController implements MouseListener, MouseMotionListener {
 	private View view = null;
 	private Model model = null;
 	Shape currentShape = null;
+
+	private boolean drawingMarker = false;
 	
 	public void mouseClicked(MouseEvent e) {
 		
@@ -25,15 +27,32 @@ public class MouseController implements MouseListener, MouseMotionListener {
 	}
 
 	public void mousePressed(MouseEvent e) {
+		//check bounds?
+		int x = e.getX();
+		int y = e.getY();
+		drawingMarker = true;
+		view.setMarkerRect(x,y,x,y);
 
 	}
 
 	public void mouseReleased(MouseEvent e) {
+		//check bounds?
+		drawingMarker = false;
+		view.brushAndLink();
+		view.setMarkerRect(0,0,0,0);
 
 	}
 
 	public void mouseDragged(MouseEvent e) {
 
+		int x = e.getX();
+		int y = e.getY();
+
+		if (drawingMarker){
+
+			view.setMarkerRect((int)(view.getMarkerRect().getX()), (int)(view.getMarkerRect().getY()),
+					x,y);
+		}
 	}
 
 	public void mouseMoved(MouseEvent e) {
