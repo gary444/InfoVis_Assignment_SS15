@@ -34,6 +34,10 @@ public class MouseController implements MouseListener, MouseMotionListener {
 		int x = e.getX();
 		int y = e.getY();
 
+		//check if 'button' is being clicked
+		if (view.pointInvertsAxis(x,y))
+			return;
+
 		//check if point is contained by axis
 		movingAxis = view.pointSelectsAxis(x,y);
 		if (movingAxis >= 0){

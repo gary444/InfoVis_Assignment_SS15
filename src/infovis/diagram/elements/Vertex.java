@@ -14,6 +14,9 @@ public class Vertex implements Element {
 	public static final double STD_WIDTH = 60;
 	public static final double STD_HEIGHT = 20;
 
+	private double centerX;
+	private double centerY;
+
 	private String text = "Neues Label";
 	private Color color = Color.BLUE;
 	private Color background = Color.WHITE;
@@ -24,7 +27,8 @@ public class Vertex implements Element {
 	
 	
 	public Vertex (Vertex vertex){
-		this.shape = new Ellipse2D.Double(vertex.getX(),vertex.getY(),vertex.getWidth(),vertex.getHeight());
+		this.shape = new Ellipse2D.Double(vertex.getX()-vertex.getWidth()/2,vertex.getY()-vertex.getHeight()/2,
+				vertex.getWidth(),vertex.getHeight());
 		this.text = vertex.text;
 		this.color = vertex.color;
 		this.background = vertex.background;
@@ -32,17 +36,18 @@ public class Vertex implements Element {
 		this.id = vertex.getID();
 	}
 	public Vertex(double x, double y, double width, double height){
-		//this.shape = new Rectangle2D.Double(x,y,width,height);
-		this.shape =  new Ellipse2D.Double(x,y,width,height);
+		centerX = x;
+		centerY = y;
+		this.shape =  new Ellipse2D.Double(centerX-width/2,centerY-height/2,width,height);
 		this.id = Model.generateNewID();
 	}
 	public Vertex(double x, double y){
-		//this.shape = new Rectangle2D.Double(x,y,width,height);
-		this.shape =  new Ellipse2D.Double(x,y,STD_WIDTH,STD_HEIGHT);
+		centerX = x;
+		centerY = y;
+		this.shape =  new Ellipse2D.Double(centerX-STD_WIDTH/2,centerY-STD_HEIGHT/2,STD_WIDTH,STD_HEIGHT);
 		this.id = Model.generateNewID();
 	}
 	public boolean contains(double x, double y) {
-		//Debug.print("Vertex CONTAINS POINT");
 		return shape.contains(x, y);
 	}
 
@@ -55,19 +60,25 @@ public class Vertex implements Element {
 	}
 
 	public double getX() {
-		return shape.getX();
+		return centerX;
 	}
 
 	public double getY() {
-		return shape.getY();
+		return centerY;
 	}
 
 	public void setX(double x) {
-		shape.setFrame(x, getY(),getWidth() , getHeight());	
+		this.centerX = x;
+		updateShape();
 	}
 
 	public void setY(double y) {
-		shape.setFrame(getX(), y, getWidth() , getHeight());	
+		this.centerY = y;
+		updateShape();
+	}
+
+	private void updateShape(){
+		shape.setFrame(centerX-getWidth()/2, centerY-getHeight()/2,getWidth(),getHeight());
 	}
 
 	public Color getColor() {
@@ -79,24 +90,25 @@ public class Vertex implements Element {
 	}
 
 	public double getWidth() {
-		//return shape.getWidth();
 		return shape.getWidth();
 	}
 
 	public void setWidth(double width) {
-		shape.setFrame(getX(), getY(), width, getHeight());
+		shape.setFrame(getX()-width/2, getY()-getHeight()/2, width, getHeight());
 	}
 
 	public double getHeight() {
-		//return shape.getHeight();
 		return shape.getHeight();
 	}
 
 	public void setHeight(double height) {
-		shape.setFrame(getX(), getY(), getWidth(), height);
+		shape.setFrame(getX()-getWidth()/2, getY()-height/2, getWidth(), height);
 	}
 	public void updatePosition(double x, double y) {
-		shape.setFrame(x, y, getWidth(), getHeight());
+		centerY = y;
+		centerX = x;
+		updateShape();
+//		shape.setFrame(x-getWidth()/2, y-getHeight()/2, getWidth(), getHeight());
 
 		//Debug.print("updatePosition");
 		
@@ -117,7 +129,7 @@ public class Vertex implements Element {
 		return id;
 	}
 	public void setFrame(double x, double y, double width, double height){
-		shape.setFrame(x, y, width, height);
+		shape.setFrame(x-width/2, y-height/2, width, height);
 	}
 	public Model getGroupedElements() {
 		return groupedElements;

@@ -14,7 +14,6 @@ public class Model {
 	private List<Element> elements = new ArrayList<Element>();
 	private List<Vertex>  vertices  = new ArrayList<Vertex>();
 	private List<Edge>    edges = new ArrayList<Edge>();
-    
    
 	public void addVertex(Vertex v){
 		vertices.add(v);
@@ -85,6 +84,26 @@ public class Model {
     	addVertex(new Vertex(400,690));
     	addVertex(new Vertex(700,90));
     	addVertex(new Vertex(700,490));
+
+
+//		addVertex(new Vertex(100,100));
+//		addVertex(new Vertex(200,100));
+//		addVertex(new Vertex(300,100));
+//		addVertex(new Vertex(400,100));
+//		addVertex(new Vertex(100,200));
+//		addVertex(new Vertex(200,200));
+//		addVertex(new Vertex(300,200));
+//		addVertex(new Vertex(400,200));
+//		addVertex(new Vertex(100,300));
+//		addVertex(new Vertex(200,300));
+//		addVertex(new Vertex(300,300));
+//		addVertex(new Vertex(400,300));
+//		addVertex(new Vertex(100,400));
+//		addVertex(new Vertex(200,400));
+//		addVertex(new Vertex(300,400));
+//		addVertex(new Vertex(400,400));
+
+
 	}
 	public boolean isEmpty(){
 		return elements.isEmpty();

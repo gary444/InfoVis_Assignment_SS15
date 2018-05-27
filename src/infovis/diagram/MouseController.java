@@ -18,13 +18,12 @@ import java.util.Iterator;
 import java.util.List;
 
 public class MouseController implements MouseListener,MouseMotionListener {
+
 	 private Model model;
 	 private View view;
 	 private Element selectedElement = new None();
 	 private double mouseOffsetX;
 	 private double mouseOffsetY;
-//	 private double mouseStartX;
-//	 private double mouseStartY;
 	 private boolean edgeDrawMode = false;
 	 private DrawingEdge drawingEdge = null;
 	 private boolean fisheyeMode;
@@ -32,6 +31,8 @@ public class MouseController implements MouseListener,MouseMotionListener {
 
 	 private boolean movingMarker = false;
      private boolean movingOverview = false;
+
+     private Fisheye fisheye;
 
 	/*
 	 * Getter And Setter
@@ -98,6 +99,14 @@ public class MouseController implements MouseListener,MouseMotionListener {
 		int y = e.getY();
 		double scale = view.getScale();
 
+//		if (fisheyeMode){
+//			fisheye.setMouseCoords(x,y,view);
+//			view.setModel(fisheye.transform(model, view));
+//			view.repaint();
+//			return;
+//		}
+
+
 		if (view.markerContains(x,y)){
 		    movingMarker = true;
 		    mouseOffsetX = x;
@@ -109,15 +118,11 @@ public class MouseController implements MouseListener,MouseMotionListener {
             mouseOffsetY = y;
         }
 	   
-       else if (edgeDrawMode){
+        else if (edgeDrawMode){
             drawingEdge = new DrawingEdge((Vertex)getElementContainingPosition(x/scale,y/scale));
             model.addElement(drawingEdge);
-        } else if (fisheyeMode){
-            /*
-             * do handle interactions in fisheye mode
-             */
-            view.repaint();
-        } else {
+        }
+        else {
 
             selectedElement = getElementContainingPosition(x/scale,y/scale);
             /*
@@ -195,9 +200,15 @@ public class MouseController implements MouseListener,MouseMotionListener {
 		int x = e.getX();
 		int y = e.getY();
 		double scale = view.getScale();
-		/*
-		 * Aufgabe 1.2
-		 */
+
+
+		if (fisheyeMode){
+			fisheye.setMouseCoords(x,y,view);
+			view.setModel(fisheye.transform(model, view));
+			view.repaint();
+			return;
+		}
+
 		if (movingMarker){
 		    //update position of marker
             view.updateMarker(x - (int)mouseOffsetX + (int)view.getMarker().getX(),
@@ -212,12 +223,11 @@ public class MouseController implements MouseListener,MouseMotionListener {
             mouseOffsetY = y;
 
         }
-		else if (fisheyeMode){
-			/*
-			 * handle fisheye mode interactions
-			 */
-			view.repaint();
-		}
+//		else if (fisheyeMode){
+//			//update mouse position for fisheye
+//			fisheye.setMouseCoords(x,y,view);
+//			view.repaint();
+//		}
 		else if (edgeDrawMode){
 			drawingEdge.setX(e.getX());
 			drawingEdge.setY(e.getY());
@@ -240,12 +250,17 @@ public class MouseController implements MouseListener,MouseMotionListener {
 		fisheyeMode = b;
 		if (b){
 			Debug.p("new Fisheye Layout");
-			/*
-			 * handle fish eye initial call
-			 */
+
+			//handle fish eye initial call
+			fisheye = new Fisheye(view.getWidth()/2, view.getHeight()/2);
+			view.setFisheye(true);
+		    view.setModel(fisheye.transform(model, view));
+
 			view.repaint();
 		} else {
 			Debug.p("new Normal Layout");
+			view.setFisheye(false);
+			fisheye = null;
 			view.setModel(model);
 			view.repaint();
 		}

@@ -21,7 +21,10 @@ public class View extends JPanel{
 	private double overviewTranslateX=0;
 	private double overviewTranslateY=0;
 	private Rectangle2D marker = new Rectangle2D.Double(overviewTranslateX,overviewTranslateY,0,0);
-	private Rectangle2D overviewRect = new Rectangle2D.Double();   
+	private Rectangle2D overviewRect = new Rectangle2D.Double();
+	private boolean fisheye;
+
+
 
 	public Model getModel() {
 		return model;
@@ -35,6 +38,9 @@ public class View extends JPanel{
 	public void setColor(Color color) {
 		this.color = color;
 	}
+	public void setFisheye(boolean shouldSetFisheye){
+		fisheye = shouldSetFisheye;
+	}
 
 	
 	public void paint(Graphics g) {
@@ -42,58 +48,70 @@ public class View extends JPanel{
 		Graphics2D g2D = (Graphics2D) g;
 		g2D.setRenderingHint(RenderingHints.KEY_ANTIALIASING,RenderingHints.VALUE_ANTIALIAS_ON);
 		g2D.clearRect(0, 0, getWidth(), getHeight());
-		
-		//main diagram
-		g2D.translate(translateX,translateY);
-		g2D.scale(scale,scale);
-		paintDiagram(g2D);
 
-		//reset translation and scale
-		g2D.scale(1/scale,1/scale);
-		g2D.translate(-translateX,-translateY);
+		if (fisheye){
 
-
-		//set overview dimensions in full scale - keep size constant
-		overviewRect = new Rectangle2D.Double(overviewTranslateX,overviewTranslateY,getWidth()*overviewBoxScale, getHeight()*overviewBoxScale);
-		g2D.setColor(new Color(0xffcccccc));
-		g2D.fill(overviewRect);
-		g2D.setColor(new Color(0xff000000));
-		g2D.draw(overviewRect);
-
-
-		//calc scale factor for overview diagram
-		double[] limits = getDiagramLimits();
-		g2D.translate(overviewTranslateX, overviewTranslateY);
-		overviewDiagramScale = Math.min((overviewRect.getWidth())/ limits[0],
-				(overviewRect.getHeight())/ limits[1]);
-		g2D.scale(overviewDiagramScale, overviewDiagramScale);
-		paintDiagram(g2D);
-
-		//reset scale and translate
-		g2D.scale(1/ overviewDiagramScale,1/ overviewDiagramScale);
-		g2D.translate(-overviewTranslateX, -overviewTranslateY);
-
-		//create marker rectangle
-		marker = new Rectangle2D.Double(marker.getX(),marker.getY(),getWidth()/scale* overviewDiagramScale,getHeight()/scale* overviewDiagramScale);
-
-		//check marker is within overview box - might not be if scale is decreased
-		if (!overviewRect.contains(marker)){
-			Rectangle2D tempR = overviewRect.createIntersection(marker);
-			double xAdjust = marker.getWidth() - tempR.getWidth();
-			double yAdjust = marker.getHeight() - tempR.getHeight();
-			marker.setRect(marker.getX() - xAdjust, marker.getY() - yAdjust, marker.getWidth(), marker.getHeight());
-			updateTranslation();
-			//paint again to update diagram position
-			paint(g2D);
+			paintDiagram(g2D);
 		}
-		else {
-			g2D.setStroke(new BasicStroke(markerBoxStroke));
-			g2D.setColor(new Color(0xffff0000));
-			//adjust for size of stroke
-			g2D.draw(new Rectangle2D.Double(marker.getX() - markerBoxStroke /2, marker.getY() - markerBoxStroke /2,
-					marker.getWidth() + markerBoxStroke, marker.getHeight() + markerBoxStroke));
 
+		else{
+
+			//main diagram
+			g2D.translate(translateX,translateY);
+			g2D.scale(scale,scale);
+			paintDiagram(g2D);
+			//reset translation and scale
+			g2D.scale(1/scale,1/scale);
+			g2D.translate(-translateX,-translateY);
+
+
+			//set overview dimensions in full scale - keep size constant
+			overviewRect = new Rectangle2D.Double(overviewTranslateX,overviewTranslateY,getWidth()*overviewBoxScale, getHeight()*overviewBoxScale);
+			g2D.setColor(new Color(0xffcccccc));
+			g2D.fill(overviewRect);
+			g2D.setColor(new Color(0xff000000));
+			g2D.draw(overviewRect);
+
+			//calc scale factor for overview diagram
+			double[] limits = getDiagramLimits();
+			g2D.translate(overviewTranslateX, overviewTranslateY);
+			overviewDiagramScale = Math.min((overviewRect.getWidth())/ limits[0],
+					(overviewRect.getHeight())/ limits[1]);
+			g2D.scale(overviewDiagramScale, overviewDiagramScale);
+			paintDiagram(g2D);
+
+			//reset scale and translate
+			g2D.scale(1/ overviewDiagramScale,1/ overviewDiagramScale);
+			g2D.translate(-overviewTranslateX, -overviewTranslateY);
+
+			//create marker rectangle
+			marker = new Rectangle2D.Double(marker.getX(),marker.getY(),getWidth()/scale* overviewDiagramScale,getHeight()/scale* overviewDiagramScale);
+
+			//check marker is within overview box - might not be if scale is decreased
+			if (!overviewRect.contains(marker)){
+				Rectangle2D tempR = overviewRect.createIntersection(marker);
+				if (tempR.getHeight() == overviewRect.getHeight() &&
+						tempR.getWidth() == overviewRect.getWidth())
+					marker.setRect(tempR);
+				else {
+					double xAdjust = marker.getWidth() - tempR.getWidth();
+					double yAdjust = marker.getHeight() - tempR.getHeight();
+					marker.setRect(marker.getX() - xAdjust, marker.getY() - yAdjust, marker.getWidth(), marker.getHeight());
+					updateTranslation();
+					//paint again to update diagram position
+					paint(g2D);
+				}
+			}
+			else {
+				g2D.setStroke(new BasicStroke(markerBoxStroke));
+				g2D.setColor(new Color(0xffff0000));
+				//adjust for size of stroke
+				g2D.draw(new Rectangle2D.Double(marker.getX() - markerBoxStroke /2, marker.getY() - markerBoxStroke /2,
+						marker.getWidth() + markerBoxStroke, marker.getHeight() + markerBoxStroke));
+
+			}
 		}
+
 		
 	}
 	private void paintDiagram(Graphics2D g2D){
@@ -109,7 +127,7 @@ public class View extends JPanel{
 		for (Element element : model.getElements()){
 			if (element.getX() > xLimit)
 				xLimit = element.getX();
-			if (element.getY() > xLimit)
+			if (element.getY() > yLimit)
 				yLimit = element.getY();
 		}
 
